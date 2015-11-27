@@ -24,6 +24,14 @@ initial begin
     #350 sig = 1;
 end
 
+//portion for the test branch
+initial begin
+    
+    #1000 $stop;
+    #10 $finish;
+
+end
+
 reg[7:0] a,b;
 wire[15:0] dout;
 
