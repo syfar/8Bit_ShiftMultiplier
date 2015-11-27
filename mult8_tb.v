@@ -21,7 +21,7 @@ end
 reg sig = 0;
 initial begin
     sig = 0;
-    #350 sig = 1;
+    #250 sig = 1;
 end
 
 //portion for the test branch
