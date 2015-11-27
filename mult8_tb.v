@@ -10,7 +10,7 @@ end
 
 reg start = 0;
 initial begin
-    
+    #100 start = 1;
 
 
 
