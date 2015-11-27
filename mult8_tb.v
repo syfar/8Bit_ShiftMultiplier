@@ -11,9 +11,8 @@ end
 reg start = 0;
 initial begin
     #100 start = 1;
-
-
-
+    repeat(3) @(posedge clk)
+        start = 0;
 end
 
 
