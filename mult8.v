@@ -11,7 +11,7 @@ module mult8(
     reg [7:0] shiftA; // shift register for A
     wire adden; // enable addition
     
-    assign adden = shiftB[7] & !done;
+    assign adden = shiftB[0] & !done;
     assign done = multcounter[3];
     
     always @(posedge clk) begin
@@ -19,13 +19,13 @@ module mult8(
         if(start) multcounter <= 0;
         else if(!done) multcounter <= multcounter + 1;
         
-        // shift register for B
-        if(start) shiftB <= B;
-        else shiftB[7:0] <= {shiftB[6:0], 1'b0};
-        
-        // shift register for A
+        // left shift  A
         if(start) shiftA <= A;
-        else shiftA[7:0] <= {shiftA[7], shiftA[7:1]};
+        else shiftA[7:0] <= {shiftA[6:0], 1'b0};
+        
+        // right shift B
+        if(start) shiftB <= B;
+        else shiftB[7:0] <= {shiftB[7], shiftB[7:1]};
         
         // calculate multiplication
         if(start) product <= 0;

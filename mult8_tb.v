@@ -1,6 +1,11 @@
 `timescale 1ns / 1ns
 module mult8_tb();
 
+wire [7:0] product;
+wire done;
+reg start = 0;
+reg [7:0] A,B = 0;
+
 //Toggle clock
 reg clk;
 initial begin
@@ -8,19 +13,27 @@ initial begin
     forever #10 clk = ~clk;
 end
 
-reg start = 0;
 initial begin
-    #100 start = 1;
+    repeat(10) @(posedge clk)
+    A = 3;
+    B = 5;
+    
+    start = 1;
     repeat(3) @(posedge clk)
-        start = 0;
-end
-
-
-//Clear signal
-reg sig = 0;
-initial begin
-    sig = 0;
-    #250 sig = 1;
+    start = 0;
+    wait(done);
+    
+    
+    repeat(10) @(posedge clk)
+    A = 33;
+    B = 4;
+    
+    start = 1;
+    repeat(3) @(posedge clk)
+    start = 0;
+    wait(done);
+    
+    
 end
 
 //portion for the test branch
@@ -31,10 +44,10 @@ initial begin
 
 end
 
-reg[7:0] a,b;
-wire[15:0] dout;
 
-mult8 DUT(.ina(a), .inb(b), .clk(clk), .sig(sig), .out(dout));
+
+mult8 DUT(.A(A), .B(B), .clk(clk), 
+    .product(product), .start(start),.done(done));
 
 endmodule
 
